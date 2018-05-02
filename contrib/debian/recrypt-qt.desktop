@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bitcoin Core
+Comment=Connect to the Recrypt P2P Network
+Exec=recrypt-qt %u
+Terminal=false
+Type=Application
+Icon=recrypt128
+MimeType=x-scheme-handler/recrypt;
+Categories=Office;Finance;

@@ -32,7 +32,7 @@ class HelpMessageDialog;
 class ModalOverlay;
 class TitleBar;
 class NavigationBar;
-class QtumVersionChecker;
+class RecryptVersionChecker;
 
 class CWallet;
 
@@ -127,7 +127,7 @@ private:
     QAction* createContractAction;
     QAction* sendToContractAction;
     QAction* callContractAction;
-    QAction* QRCTokenAction;
+    QAction* RRCTokenAction;
     QAction* sendTokenAction;
     QAction* receiveTokenAction;
     QAction* addTokenAction;
@@ -138,7 +138,7 @@ private:
     RPCConsole *rpcConsole;
     HelpMessageDialog *helpMessageDialog;
     ModalOverlay *modalOverlay;
-    QtumVersionChecker *qtumVersionChecker;
+    RecryptVersionChecker *recryptVersionChecker;
     ModalOverlay *modalBackupOverlay;
 
     /** Keep track of previous number of blocks, to detect progress */

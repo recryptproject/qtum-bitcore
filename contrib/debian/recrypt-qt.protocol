@@ -1,0 +1,11 @@
+[Protocol]
+exec=recrypt-qt '%u'
+protocol=recrypt
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

@@ -56,10 +56,10 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>QtumGUI</name>
+    <name>RecryptGUI</name>
     <message>
-        <source>Qtum</source>
-        <translation>Qtum Core</translation>
+        <source>Recrypt</source>
+        <translation>Recrypt Core</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -226,14 +226,14 @@
     </message>
     </context>
 <context>
-    <name>qtum-core</name>
+    <name>recrypt-core</name>
     <message>
-        <source>Qtum Core</source>
-        <translation>Qtum Core</translation>
+        <source>Recrypt Core</source>
+        <translation>Recrypt Core</translation>
     </message>
     <message>
         <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
-        <translation>qtum-core</translation>
+        <translation>recrypt-core</translation>
     </message>
     <message>
         <source>Information</source>

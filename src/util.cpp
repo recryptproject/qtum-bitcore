@@ -99,8 +99,8 @@ namespace boost {
 
 using namespace std;
 
-const char * const BITCOIN_CONF_FILENAME = "qtum.conf";
-const char * const BITCOIN_PID_FILENAME = "qtumd.pid";
+const char * const BITCOIN_CONF_FILENAME = "recrypt.conf";
+const char * const BITCOIN_PID_FILENAME = "recryptd.pid";
 
 CCriticalSection cs_args;
 map<string, string> mapArgs;
@@ -193,7 +193,7 @@ static FILE* fileout = NULL;
 static boost::mutex* mutexDebugLog = NULL;
 static list<string> *vMsgsBeforeOpenLog;
 
-/////////////////////////////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////////////////////////////// // recrypt
 static FILE* fileoutVM = NULL;
 ///////////////////////////////////////////////////////////////////////
 
@@ -215,12 +215,12 @@ void OpenDebugLog()
     boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
 
     assert(fileout == NULL);
-    assert(fileoutVM == NULL); // qtum
+    assert(fileoutVM == NULL); // recrypt
     assert(vMsgsBeforeOpenLog);
     boost::filesystem::path pathDebug = GetDataDir() / "debug.log";
-    boost::filesystem::path pathDebugVM = GetDataDir() / "vm.log"; // qtum
+    boost::filesystem::path pathDebugVM = GetDataDir() / "vm.log"; // recrypt
     fileout = fopen(pathDebug.string().c_str(), "a");
-    fileoutVM = fopen(pathDebugVM.string().c_str(), "a"); // qtum
+    fileoutVM = fopen(pathDebugVM.string().c_str(), "a"); // recrypt
     if (fileout) {
         setbuf(fileout, NULL); // unbuffered
         // dump buffered messages from before we opened the log
@@ -229,7 +229,7 @@ void OpenDebugLog()
             vMsgsBeforeOpenLog->pop_front();
         }
     }
-    ///////////////////////////////////////////// // qtum
+    ///////////////////////////////////////////// // recrypt
     if (fileoutVM) {
         setbuf(fileoutVM, NULL); // unbuffered
         // dump buffered messages from before we opened the log
@@ -308,7 +308,7 @@ static std::string LogTimestampStr(const std::string &str, std::atomic_bool *fSt
 int LogPrintStr(const std::string &str, bool useVMLog)
 {
 
-//////////////////////////////// // qtum
+//////////////////////////////// // recrypt
     FILE* file = fileout;
     if(useVMLog){
         file = fileoutVM;
@@ -503,13 +503,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Qtum
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Qtum
-    // Mac: ~/Library/Application Support/Qtum
-    // Unix: ~/.qtum
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Recrypt
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Recrypt
+    // Mac: ~/Library/Application Support/Recrypt
+    // Unix: ~/.recrypt
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Qtum";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Recrypt";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -519,10 +519,10 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/Qtum";
+    return pathRet / "Library/Application Support/Recrypt";
 #else
     // Unix
-    return pathRet / ".qtum";
+    return pathRet / ".recrypt";
 #endif
 #endif
 }
@@ -860,8 +860,8 @@ std::string CopyrightHolders(const std::string& strPrefix)
     std::string strCopyrightHolders = strPrefix + strprintf(_(COPYRIGHT_HOLDERS), _(COPYRIGHT_HOLDERS_SUBSTITUTION));
 
     // Check for untranslated substitution to make sure Bitcoin Core copyright is not removed by accident
-    if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Qtum Core") == std::string::npos) {
-        strCopyrightHolders += "\n" + strPrefix + "The Qtum Core developers";
+    if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Recrypt Core") == std::string::npos) {
+        strCopyrightHolders += "\n" + strPrefix + "The Recrypt Core developers";
     }
     return strCopyrightHolders;
 }

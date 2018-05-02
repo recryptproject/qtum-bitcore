@@ -1,0 +1,6 @@
+usr/local/bin/recrypt-qt usr/bin
+share/pixmaps/recrypt32.xpm usr/share/pixmaps
+share/pixmaps/recrypt16.xpm usr/share/pixmaps
+share/pixmaps/recrypt128.png usr/share/pixmaps
+debian/recrypt-qt.desktop usr/share/applications
+debian/recrypt-qt.protocol usr/share/kde4/services/

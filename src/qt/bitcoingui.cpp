@@ -25,7 +25,7 @@
 #include "rpc/server.h"
 #include "navigationbar.h"
 #include "titlebar.h"
-#include "qtumversionchecker.h"
+#include "recryptversionchecker.h"
 
 #ifdef ENABLE_WALLET
 #include "walletframe.h"
@@ -133,7 +133,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     createContractAction(0),
     sendToContractAction(0),
     callContractAction(0),
-    QRCTokenAction(0),
+    RRCTokenAction(0),
     sendTokenAction(0),
     receiveTokenAction(0),
     addTokenAction(0),
@@ -143,7 +143,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     rpcConsole(0),
     helpMessageDialog(0),
     modalOverlay(0),
-    qtumVersionChecker(0),
+    recryptVersionChecker(0),
     modalBackupOverlay(0),
     prevBlocks(0),
     spinnerFrame(0),
@@ -292,12 +292,12 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
 
     modalOverlay = new ModalOverlay(this->centralWidget());
     modalBackupOverlay = new ModalOverlay(this, ModalOverlay::Backup);
-    qtumVersionChecker = new QtumVersionChecker(this);
+    recryptVersionChecker = new RecryptVersionChecker(this);
 
-    if(fCheckForUpdates && qtumVersionChecker->newVersionAvailable())
+    if(fCheckForUpdates && recryptVersionChecker->newVersionAvailable())
     {
-        QString link = QString("<a href=%1>%2</a>").arg(QTUM_RELEASES, QTUM_RELEASES);
-        QString message(tr("New version of Qtum wallet is available on the Qtum source code repository: <br /> %1. <br />It is recommended to download it and update this application").arg(link));
+        QString link = QString("<a href=%1>%2</a>").arg(RECRYPT_RELEASES, RECRYPT_RELEASES);
+        QString message(tr("New version of Recrypt wallet is available on the Recrypt source code repository: <br /> %1. <br />It is recommended to download it and update this application").arg(link));
         QMessageBox::information(this, tr("Check for updates"), message);
     }
 
@@ -341,7 +341,7 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(overviewAction);
 
     sendCoinsAction = new QAction(platformStyle->MultiStatesIcon(":/icons/send_to"), tr("&Send"), this);
-    sendCoinsAction->setStatusTip(tr("Send coins to a Qtum address"));
+    sendCoinsAction->setStatusTip(tr("Send coins to a Recrypt address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
@@ -352,7 +352,7 @@ void BitcoinGUI::createActions()
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
     receiveCoinsAction = new QAction(platformStyle->MultiStatesIcon(":/icons/receive_from"), tr("&Receive"), this);
-    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and qtum: URIs)"));
+    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and recrypt: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
@@ -380,12 +380,12 @@ void BitcoinGUI::createActions()
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(historyAction);
 
-    QRCTokenAction = new QAction(platformStyle->MultiStatesIcon(":/icons/qrctoken"), tr("&QRC Tokens"), this);
-    QRCTokenAction->setStatusTip(tr("QRC Tokens (send, receive or add Tokens in list)"));
-    QRCTokenAction->setToolTip(QRCTokenAction->statusTip());
-    QRCTokenAction->setCheckable(true);
-    QRCTokenAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
-    tabGroup->addAction(QRCTokenAction);
+    RRCTokenAction = new QAction(platformStyle->MultiStatesIcon(":/icons/rrctoken"), tr("&RRC Tokens"), this);
+    RRCTokenAction->setStatusTip(tr("RRC Tokens (send, receive or add Tokens in list)"));
+    RRCTokenAction->setToolTip(RRCTokenAction->statusTip());
+    RRCTokenAction->setCheckable(true);
+    RRCTokenAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    tabGroup->addAction(RRCTokenAction);
 
     sendTokenAction = new QAction(tr("Send"), this);
     receiveTokenAction = new QAction(tr("Receive"), this);
@@ -453,9 +453,9 @@ void BitcoinGUI::createActions()
     lockWalletAction = new QAction(platformStyle->MenuColorIcon(":/icons/lock_closed"), tr("&Lock Wallet"), this);
     lockWalletAction->setToolTip(tr("Lock wallet"));
     signMessageAction = new QAction(platformStyle->MenuColorIcon(":/icons/edit"), tr("Sign &message..."), this);
-    signMessageAction->setStatusTip(tr("Sign messages with your Qtum addresses to prove you own them"));
+    signMessageAction->setStatusTip(tr("Sign messages with your Recrypt addresses to prove you own them"));
     verifyMessageAction = new QAction(platformStyle->MenuColorIcon(":/icons/verify"), tr("&Verify message..."), this);
-    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Qtum addresses"));
+    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Recrypt addresses"));
 
     openRPCConsoleAction = new QAction(platformStyle->MenuColorIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
@@ -468,11 +468,11 @@ void BitcoinGUI::createActions()
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
     openAction = new QAction(platformStyle->MenuColorIcon(":/icons/open"), tr("Open &URI..."), this);
-    openAction->setStatusTip(tr("Open a qtum: URI or payment request"));
+    openAction->setStatusTip(tr("Open a recrypt: URI or payment request"));
 
     showHelpMessageAction = new QAction(platformStyle->MenuColorIcon(":/icons/info"), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
-    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Qtum command-line options").arg(tr(PACKAGE_NAME)));
+    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Recrypt command-line options").arg(tr(PACKAGE_NAME)));
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
@@ -575,7 +575,7 @@ void BitcoinGUI::createToolBars()
         tokenActions.append(sendTokenAction);
         tokenActions.append(receiveTokenAction);
         tokenActions.append(addTokenAction);
-        appNavigationBar->mapGroup(QRCTokenAction, tokenActions);
+        appNavigationBar->mapGroup(RRCTokenAction, tokenActions);
         appNavigationBar->buildUi();
         overviewAction->setChecked(true);
     }
@@ -827,21 +827,21 @@ void BitcoinGUI::gotoHistoryPage()
 void BitcoinGUI::gotoSendTokenPage()
 {
     sendTokenAction->setChecked(true);
-    QRCTokenAction->setChecked(true);
+    RRCTokenAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendTokenPage();
 }
 
 void BitcoinGUI::gotoReceiveTokenPage()
 {
     receiveTokenAction->setChecked(true);
-    QRCTokenAction->setChecked(true);
+    RRCTokenAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveTokenPage();
 }
 
 void BitcoinGUI::gotoAddTokenPage()
 {
     addTokenAction->setChecked(true);
-    QRCTokenAction->setChecked(true);
+    RRCTokenAction->setChecked(true);
     if (walletFrame) walletFrame->gotoAddTokenPage();
 }
 
@@ -899,7 +899,7 @@ void BitcoinGUI::updateNetworkState()
     QString tooltip;
 
     if (clientModel->getNetworkActive()) {
-        tooltip = tr("%n active connection(s) to Qtum network", "", count) + QString(".<br>") + tr("Click to disable network activity.");
+        tooltip = tr("%n active connection(s) to Recrypt network", "", count) + QString(".<br>") + tr("Click to disable network activity.");
     } else {
         tooltip = tr("Network activity disabled.") + QString("<br>") + tr("Click to enable network activity again.");
         icon = ":/icons/network_disabled";
@@ -1050,7 +1050,7 @@ void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVer
 
 void BitcoinGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
-    QString strTitle = tr("Qtum"); // default title
+    QString strTitle = tr("Recrypt"); // default title
     // Default to information icon
     int nMBoxIcon = QMessageBox::Information;
     int nNotifyIcon = Notificator::Information;

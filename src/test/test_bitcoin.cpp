@@ -70,13 +70,13 @@ TestingSetup::TestingSetup(const std::string& chainName) : BasicTestingSetup(cha
         pcoinsdbview = new CCoinsViewDB(1 << 23, true);
         pcoinsTip = new CCoinsViewCache(pcoinsdbview);
 
-////////////////////////////////////////////////////////////// qtum
+////////////////////////////////////////////////////////////// recrypt
         dev::eth::Ethash::init();		
         boost::filesystem::path pathTemp = GetTempPath() / strprintf("test_bitcoin_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
         boost::filesystem::create_directories(pathTemp);
         const dev::h256 hashDB(dev::sha3(dev::rlp("")));
-        globalState = std::unique_ptr<QtumState>(new QtumState(dev::u256(0), QtumState::openDB(pathTemp.string(), hashDB, dev::WithExisting::Trust), pathTemp.string(), dev::eth::BaseState::Empty));
-        dev::eth::ChainParams cp((dev::eth::genesisInfo(dev::eth::Network::qtumTestNetwork)));
+        globalState = std::unique_ptr<RecryptState>(new RecryptState(dev::u256(0), RecryptState::openDB(pathTemp.string(), hashDB, dev::WithExisting::Trust), pathTemp.string(), dev::eth::BaseState::Empty));
+        dev::eth::ChainParams cp((dev::eth::genesisInfo(dev::eth::Network::recryptTestNetwork)));
         globalSealEngine = std::unique_ptr<dev::eth::SealEngineFace>(cp.createSealEngine());
         globalState->populateFrom(cp.genesisState);
         globalState->setRootUTXO(uintToh256(chainparams.GenesisBlock().hashUTXORoot));
@@ -109,7 +109,7 @@ TestingSetup::~TestingSetup()
         delete pcoinsdbview;
         delete pblocktree;
 
-/////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////// // recrypt
         delete globalState.release();
         globalSealEngine.reset();
 ///////////////////////////////////////////////

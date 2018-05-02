@@ -1,14 +1,14 @@
 *.tar.gz
 
 *.exe
-src/qtum-cli
-src/qtum-tx
-src/qtumd
-src/bench/bench_qtum
-src/qt/qtum-qt
-src/qt/test/test_qtum-qt
-src/test/test_qtum
-src/test/test_qtum_fuzzy
+src/recrypt-cli
+src/recrypt-tx
+src/recryptd
+src/bench/bench_recrypt
+src/qt/recrypt-qt
+src/qt/test/test_recrypt-qt
+src/test/test_recrypt
+src/test/test_recrypt_fuzzy
 
 # autoreconf
 Makefile.in
